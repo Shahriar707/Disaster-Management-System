@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}
+Admin Crisis Management
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Crisis Management</h1>
+
+    <h2>Pending Crises for Approval</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Location</th>
+                <th>Severity</th>
+                <th>Status</th>
+                <th>Description</th>
+                <th>Required Help</th>
+                <th>Approve</th>
+                <th>Change Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for crisis in crises %}
+            <tr>
+                <td>{{ crisis.title }}</td>
+                <td>{{ crisis.location }}</td>
+                <td>{{ crisis.severity }}</td>
+                <td>{{ crisis.status }}</td>
+                <td>{{ crisis.description }}</td>
+                <td>{{ crisis.required_help }}</td>
+                <td>
+                    {% if not crisis.is_approved %}
+                    <form method="post" action="{% url 'approve_crisis' crisis.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success">Approve</button>
+                    </form>
+                    {% else %}
+                    <span class="text-success">Approved</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <form method="post" action="{% url 'update_crisis' crisis.id %}">
+                        {% csrf_token %}
+                        <select name="status" class="form-control">
+                            <option value="Ongoing" {% if crisis.status == 'Ongoing' %}selected{% endif %}>Ongoing</option>
+                            <option value="Resolved" {% if crisis.status == 'Resolved' %}selected{% endif %}>Resolved</option>
+                            <option value="Pending" {% if crisis.status == 'Pending' %}selected{% endif %}>Pending</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary mt-2">Update Status</button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8" class="text-center">No pending crises for approval</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+{% endblock %}

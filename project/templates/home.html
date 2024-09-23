@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'home.css' %}"> 
+{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>Dashboard</h1>
+
+    <section id="fund-section">
+        <h2>Total Donated Funds</h2>
+        <p>Total Funds: ${{ total_funds }}</p>
+        <canvas id="fund-chart"></canvas>
+        <a href="{% url 'donation' %}" class="btn btn-primary">Donate Now</a>
+    </section>
+
+    <section id="crisis-section">
+        <h2>Recent Crises</h2>
+        <ul>
+            {% for crisis in recent_crisis %}
+                <li>{{ crisis.title }} - {{ crisis.location }} ({{ crisis.severity }})</li>
+            {% empty %}
+                <li>No crisis reported.</li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'crisis' %}" class="btn btn-primary">View All Crises</a>
+    </section>
+
+    <section id="volunteer-section">
+        <h2>Available Volunteers</h2>
+        <ul>
+            {% for volunteer in available_volunteers %}
+                <li>{{ volunteer.name }} ({{ volunteer.age }}) - {{ volunteer.assigned_task }}</li>
+            {% empty %}
+                <li>No available volunteers.</li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'volunteer' %}" class="btn btn-primary">View All Volunteers</a>
+    </section>
+</div>
+{% endblock %}

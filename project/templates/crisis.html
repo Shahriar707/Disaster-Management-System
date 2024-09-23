@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'crisis.css' %}"> 
+{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>Crisis Management</h1>
+
+    <section id="crisis-list">
+        <h2>List of Crisis</h2>
+        <ul>
+            {% for crisis in recent_crisis %}
+                <li>
+                    <h3>{{ crisis.title }} - {{ crisis.location }}</h3>
+                    <p><strong>Severity:</strong> {{ crisis.severity }}</p>
+                    <p><strong>Description:</strong> {{ crisis.description }}</p>
+                    <p><strong>Required Help:</strong> {{ crisis.required_help }}</p>
+                    {% if crisis.image %}
+                        <img src="{{ crisis.image.url }}" alt="Crisis Image" style="max-width: 200px;">
+                    {% endif %}
+                </li>
+            {% empty %}
+                <li>No crises to show.</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section id="crisis-form">
+        <h2>Report a Crisis</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Submit Crisis</button>
+        </form>
+    </section>
+    <section>
+        <form method="GET" action="{% url 'crisis' %}">
+            <label for="severity">Filter by Severity:</label>
+            <select name="severity" id="severity">
+                <option value="">All</option>
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select>
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </form>        
+    </section>
+</div>
+{% endblock %}

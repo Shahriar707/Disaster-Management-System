@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'donation.css' %}"> 
+{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>Make a Donation</h1>
+    
+    <p>Total Funds: ${{ total_funds }}</p>
+    
+    <h2>Donate Now</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Donate</button>
+    </form>
+    
+    <h2>Donation History</h2>
+    <ul>
+        {% for donation in donations %}
+            <li>{{ donation.user.username }} donated ${{ donation.amount }} on {{ donation.date }}</li>
+        {% empty %}
+            <li>No donations yet.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

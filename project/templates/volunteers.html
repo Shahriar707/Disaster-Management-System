@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'volunteer.css' %}"> 
+{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>Available Volunteers</h1>
+
+    <ul class="volunteer-list">
+        {% for volunteer in volunteers %}
+            <li>
+                <strong>Name:</strong> {{ volunteer.user.username }}<br>
+                <strong>Age:</strong> {{ volunteer.age }}<br>
+                <strong>Phone:</strong> {{ volunteer.phone_number }}<br>
+                <strong>Assigned Task:</strong> {{ volunteer.assigned_task }}<br>
+                <strong>Location:</strong> {{ volunteer.location }}<br>
+            </li>
+        {% empty %}
+            <li>No volunteers available at the moment.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

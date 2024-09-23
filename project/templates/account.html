@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Profile</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" class="form-control" value="{{ user.username }}">
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" class="form-control" value="{{ user.email }}">
+        </div>
+
+
+        {% if volunteer_form %}
+        <h3>Volunteer Information</h3>
+        <div class="form-group">
+            {{ volunteer_form.as_p }}
+        </div>
+        {% endif %}
+
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'inventory.css' %}"> 
+{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>Inventory List</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Added By</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in inventory_items %}
+                <tr>
+                    <td>{{ item.item_name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.inventory_type }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.added_by.username }}</td>
+                    <td>
+                        <a href="{% url 'update_inventory' item.pk %}" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="{% url 'delete_inventory' item.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6">No inventory items available.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'add_inventory' %}" class="btn btn-primary">Add Inventory Item</a>
+</div>
+{% endblock %}

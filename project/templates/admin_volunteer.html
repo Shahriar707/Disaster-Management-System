@@ -1,0 +1,29 @@
+<!-- admin/volunteer.html -->
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h2>Volunteer Management</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Phone</th>
+                <th>Assigned Task</th>
+                <th>Availability</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for volunteer in volunteers %}
+            <tr>
+                <td>{{ volunteer.user.username }}</td>
+                <td>{{ volunteer.age }}</td>
+                <td>{{ volunteer.phone_number }}</td>
+                <td>{{ volunteer.assigned_task }}</td>
+                <td>{{ volunteer.is_available }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
